@@ -26,6 +26,23 @@ func (p *PermsConnectorPlugin) RegisterEvents() {
 	permissions.OnGroupExpiration_Register(p.OnGroupExpiration)
 }
 
+func (p *PermsConnectorPlugin) UnregisterEvents() {
+	s2sdk.OnServerActivate_Unregister(p.OnServerActivated)
+	s2sdk.OnMapEnd_Unregister(p.OnMapEnd)
+
+	s2sdk.OnClientAuthenticated_Unregister(p.OnClientAuthenticated)
+	s2sdk.OnClientSessionEnd_Unregister(p.OnClientSessionEnd)
+
+	permissions.OnUserLoaded_Unregister(p.OnUserLoaded)
+
+	permissions.OnUserPermissionChange_Unregister(p.OnUserPermissionChange)
+	permissions.OnUserGroupChange_Unregister(p.OnUserGroupChange)
+	permissions.OnUserCookieChange_Unregister(p.OnUserCookieChange)
+
+	permissions.OnPermissionExpiration_Unregister(p.OnPermissionExpiration)
+	permissions.OnGroupExpiration_Unregister(p.OnGroupExpiration)
+}
+
 func (p *PermsConnectorPlugin) OnServerActivated() {
 	go permissions.LoadGroups(p.PluginID, false)
 	//p.log.Debugf("OnServerActivated called.")

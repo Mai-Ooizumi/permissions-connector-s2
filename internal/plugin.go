@@ -66,6 +66,15 @@ func (p *PermsConnectorPlugin) OnPluginUpdate(dt float32) error {
 }
 
 func (p *PermsConnectorPlugin) OnPluginEnd() error {
+	p.UnregisterEvents()
+	if p.commands != nil {
+		p.commands.Unregister()
+	}
+	for steamID, timer := range p.loadedUserTimers {
+		s2sdk.KillsTimer(timer)
+		delete(p.loadedUserTimers, steamID)
+	}
+
 	//permissions.ResetConnectorID()
 	return nil
 }

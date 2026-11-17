@@ -137,6 +137,12 @@ func (c *Commands) Register() {
 	}
 }
 
+func (c *Commands) Unregister() {
+	for cmdName := range c.handlers {
+		s2sdk.RemoveCommand(cmdName, c.conCommandCallback)
+	}
+}
+
 func (c *Commands) conCommandCallback(caller int32, context s2sdk.ConCommandContext, arguments []string) s2sdk.ResultType {
 	commandName := arguments[0]
 	command, exists := c.handlers[commandName]
