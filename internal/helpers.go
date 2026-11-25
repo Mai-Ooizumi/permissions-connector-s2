@@ -10,9 +10,9 @@ import (
 
 func (p *PermsConnectorPlugin) SendTranslatedNotifyPlayer(playerSlot int32, flags config.NotifyFlag, translationKey, language string, args ...any) {
 	var msg string
-	if flags&(config.Console|config.Chat) != 0 {
+	if textFlags := flags & (config.Console | config.Chat); textFlags != 0 {
 		msg = t.TranslateFormat(language, translationKey, args)
-		p.SendNotifyPlayer(playerSlot, config.Console|config.Chat, msg)
+		p.SendNotifyPlayer(playerSlot, textFlags, msg)
 	}
 	if flags&config.Hint != 0 {
 		msg = t.TranslateFormat(language, translationKey+".hint", args)
